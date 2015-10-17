@@ -17,11 +17,8 @@ namespace Fixtures.Data
         public Room GetRoom(string name)
         {
             var row = context.Rooms.FirstOrDefault(r => r.Name == name);
-
-            var room = new Room
-            {
-                ArtNetRGBFixtures
-            }
+            
+            return null;
         }
 
     }

@@ -1,0 +1,49 @@
+﻿[
+  {
+    "Name": "Wohnzimmer",
+    "Lights": [
+      {
+        "Name": "RGB",
+        "Channels": [
+          {
+            "Name": "1",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0
+          },
+          {
+            "Name": "2",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0
+          },
+          {
+            "Name": "3",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0
+          }
+        ]
+      },
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0
+          }
+        ]
+      }
+    ]
+  }
+]

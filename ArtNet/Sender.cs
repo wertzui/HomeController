@@ -10,15 +10,17 @@ namespace ArtNet
 {
     public class Sender
     {
-        private readonly UdpClient client;
+        readonly UdpClient client;
         public const int ArtNetDefaultPort = 6454;
-        private readonly string host;
-        private readonly int port;
+        readonly string host;
+        readonly int port;
 
         public Sender(string host, int port = ArtNetDefaultPort)
         {
-            client = new UdpClient();
-            client.EnableBroadcast = true;
+            client = new UdpClient
+            {
+                EnableBroadcast = true
+            };
             this.host = host;
             this.port = port;
         }
@@ -26,6 +28,7 @@ namespace ArtNet
         public async Task SendAsync(IArtNetPackage package)
         {
             var bytes = package.GetBytes();
+            Console.WriteLine("ArtNet: sending package to host {0}", host);
             await client.SendAsync(bytes, bytes.Length, host, port);
         }
     }

@@ -56,16 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SenderTests.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ArtNet.Common\ArtNet.Common.csproj">
-      <Project>{f8e642ba-4c69-4ea1-a92e-0c2b4d2f2568}</Project>
-      <Name>ArtNet.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArtNet\ArtNet.Sender.csproj">
-      <Project>{C93C89EB-5BC0-4183-953F-8643BCDC9139}</Project>
-      <Name>ArtNet.Sender</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

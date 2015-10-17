@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArtNet.ConsoleListener</RootNamespace>
     <AssemblyName>ArtNet.ConsoleListener</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,13 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArtNet.Common\ArtNet.Common.csproj">
-      <Project>{f8e642ba-4c69-4ea1-a92e-0c2b4d2f2568}</Project>
-      <Name>ArtNet.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArtNet\ArtNet.Sender.csproj">
-      <Project>{c93c89eb-5bc0-4183-953f-8643bcdc9139}</Project>
-      <Name>ArtNet.Sender</Name>
+    <ProjectReference Include="..\ArtNet\ArtNetPlugin.csproj">
+      <Project>{fe9b889f-10fe-482b-a262-17171820c81c}</Project>
+      <Name>ArtNetPlugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -43,20 +43,6 @@
     <Compile Include="Fade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ArtNet.Common\ArtNet.Common.csproj">
-      <Project>{f8e642ba-4c69-4ea1-a92e-0c2b4d2f2568}</Project>
-      <Name>ArtNet.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArtNet.Data\ArtNet.Data.csproj">
-      <Project>{e84dc433-8af5-4e29-8489-934fc689f622}</Project>
-      <Name>ArtNet.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArtNet\ArtNet.Sender.csproj">
-      <Project>{c93c89eb-5bc0-4183-953f-8643bcdc9139}</Project>
-      <Name>ArtNet.Sender</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
