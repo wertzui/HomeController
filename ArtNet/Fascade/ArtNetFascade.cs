@@ -31,7 +31,7 @@ namespace ArtNet.Fascade
         public ArtNetFascade(short universe, string host)
         {
             persistence = new Persistence();
-            package = persistence.Get(universe);
+            package = persistence.GetAsync(universe).Result;
             sender = new Sender(host);
             sendTimer = new Timer(10);
             sendTimer.Elapsed += sendTimer_Elapsed;

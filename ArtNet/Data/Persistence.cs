@@ -1,9 +1,12 @@
 ﻿using ArtNet.Common;
 using ArtNet.Data.DAL;
 using ArtNet.Data.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,48 +15,53 @@ namespace ArtNet.Data
 {
     public class Persistence : IPersistence
     {
-        private ArtDmxContext context;
-
+        //private ArtDmxContext context;
+        private static string DataFolder = Path.GetDirectoryName((Assembly.GetExecutingAssembly().Location)) + "\\ArtNet\\";
+        static string GeneratFullPath(short universe) => $"{DataFolder}\\{universe}.json";
         public Persistence()
-            : this(new ArtDmxContext())
+        //: this(new ArtDmxContext())
         {
 
         }
 
         internal Persistence(ArtDmxContext context)
         {
-            this.context = context;
+            //this.context = context;
         }
 
-        public ArtDmxPackage Get(short universe)
+        public async Task<ArtDmxPackage> GetAsync(short universe)
         {
-            var entity = context.ArtDmxEntities.FirstOrDefault(e => e.Universe == universe);
-            var data = DataConverter.GetBytesFromEntity(entity);
-            var package = new ArtDmxPackage(data);
-            package.Universe = universe;
-            if (entity != null)
-                package.Sequence = entity.Sequence;
-
-            return package;
+            try
+            {
+                string fileContent;
+                using (var reader = File.OpenText(GeneratFullPath(universe)))
+                {
+                    fileContent = await reader.ReadToEndAsync();
+                }
+                return JsonConvert.DeserializeObject<ArtDmxPackage>(fileContent);
+            }
+            catch (Exception)
+            {
+                return new ArtDmxPackage { Universe = universe };
+            }
         }
 
         public async Task UpdateAsync(ArtDmxPackage package)
         {
             if (package == null)
-                throw new ArgumentNullException("package");
+                throw new ArgumentNullException(nameof(package));
 
-            var entity = context.ArtDmxEntities.FirstOrDefault(r => r.Universe == package.Universe);
+            if (!Directory.Exists(DataFolder))
+                Directory.CreateDirectory(DataFolder);
 
-            if (entity == null)
+            var fileContent = JsonConvert.SerializeObject(package, Formatting.Indented);
+            var fullPath = GeneratFullPath(package.Universe);
+
+            using (var writer = File.CreateText(fullPath))
             {
-                entity = context.ArtDmxEntities.Add(context.ArtDmxEntities.Create());
-                entity.Universe = package.Universe;
+                await writer.WriteAsync(fileContent);
             }
-
-            DataConverter.SetBytesToEntity(entity, package.Data);
-            entity.Sequence = package.Sequence;
-
-            await context.SaveChangesAsync();
         }
+
     }
 }

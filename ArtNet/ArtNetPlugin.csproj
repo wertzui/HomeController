@@ -31,13 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -56,10 +52,6 @@
     <Compile Include="Common\ByteHelper.cs" />
     <Compile Include="Common\IArtNetPackage.cs" />
     <Compile Include="Common\OpCodes.cs" />
-    <Compile Include="Data\DAL\ArtDmxContext.cs" />
-    <Compile Include="Data\DAL\ArtDmxInitializer.cs" />
-    <Compile Include="Data\DataConverter.cs" />
-    <Compile Include="Data\Entities\ArtDmxEntity.cs" />
     <Compile Include="Data\IPersistence.cs" />
     <Compile Include="Data\Persistence.cs" />
     <Compile Include="Fascade\ArtNetFascade.cs" />
