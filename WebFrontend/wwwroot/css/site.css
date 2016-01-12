@@ -1,5 +1,4 @@
-﻿/* Move down content because we have a fixed navbar that is 50px tall */
-body {
+﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -18,14 +17,18 @@ textarea {
     max-width: 280px;
 }
 
+/* Carousel */
+.carousel-caption {
+    z-index: 10 !important;
+}
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-    .jumbotron {
-        margin-top: 20px;
+    .carousel-caption p {
+        font-size: 20px;
+        line-height: 1.4;
     }
 
-    .body-content {
-        padding: 0;
+@media (min-width: 768px) {
+    .carousel-caption {
+        z-index: 10 !important;
     }
 }

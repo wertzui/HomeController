@@ -7,20 +7,20 @@
         "signalr": "*",
         "angular": "*"
     },
-    "exportsOverride": {
-        "bootstrap": {
-            "js": "dist/js/*.*",
-            "css": "dist/css/*.*",
-            "fonts": "dist/fonts/*.*"
-        },
-        "jquery": {
-            "js": "jquery.{js,min.js,min.map}"
-        },
-        "jquery-validation": {
-            "": "jquery.validate.js"
-        },
-        "jquery-validation-unobtrusive": {
-            "": "jquery.validate.unobtrusive.{js,min.js}"
-        }
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "dist/js/*.*",
+      "css": "dist/css/*.*",
+      "fonts": "dist/fonts/*.*"
+    },
+    "jquery": {
+      "js": "jquery.{js,min.js,min.map}"
+    },
+    "jquery-validation": {
+      "": "jquery.validate.js"
+    },
+    "jquery-validation-unobtrusive": {
+      "": "jquery.validate.unobtrusive.{js,min.js}"
     }
+  }
 }
