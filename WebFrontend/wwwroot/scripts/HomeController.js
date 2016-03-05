@@ -40,7 +40,7 @@ var hub = (function () {
     };
 
     // start the connection
-    var connection = $.hubConnection("http://192.168.0.195:1906/signalr");
+    var connection = $.hubConnection("http://192.168.0.196:1906/signalr");
     var eventHubProxy = connection.createHubProxy("EventHub");
     connection.start()
         .done(function () {

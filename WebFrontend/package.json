@@ -1,11 +1,22 @@
 {
-  "name": "ASP.NET",
-  "version": "0.0.0",
   "devDependencies": {
-    "gulp": "3.8.11",
-    "gulp-concat": "2.5.2",
-    "gulp-cssmin": "0.1.7",
-    "gulp-uglify": "1.2.0",
-    "rimraf": "2.2.8"
+    "gulp": "*",
+    "gulp-concat": "*",
+    "gulp-cssmin": "*",
+    "gulp-uglify": "*",
+    "gulp-less": "*",
+    "rimraf": "*",
+    "typings": "*"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-beta.7",
+    "bootstrap": "*",
+    "ms-signalr-client": "*",
+    "winjs": "*",
+    "systemjs": "*"
+  },
+  "scripts": {
+    "typings": "typings",
+    "postinstall": "typings install"
   }
 }

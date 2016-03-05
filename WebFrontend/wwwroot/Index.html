@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <base href="/Index.html">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeController</title>
+    <!-- 1. Load css libraries-->
+    <link rel="stylesheet" href="lib/bootstrap.css" />
+    <link rel="stylesheet" href="lib/ui-dark.css" />
+    <link rel="stylesheet" href="css/site.css" />
+
+    <!-- 2. Load libraries -->
+    <script src="lib/es6-shim.min.js"></script>
+    <script src="lib/system-polyfills.js"></script>
+
+    <script src="lib/angular2-polyfills.js"></script>
+    <script src="lib/system.js"></script>
+    <script src="lib/rx.js"></script>
+
+    <script src="lib/angular2.dev.js"></script>
+    <script src="lib/http.dev.js"></script>
+    <script src="lib/router.dev.js"></script>
+
+    <script src="lib/jquery.js"></script>
+    <script src="lib/jquery.signalr-2.2.0.js"></script>
+    <script src="lib/base.js"></script>
+    <script src="lib/ui.js"></script>
+    <!-- 3. Configure SystemJS -->
+    <script>
+        System.config({
+            packages: {
+                app: {
+                    defaultExtension: 'js'
+                }
+            }
+        });
+    </script>
+    <script>
+        System.import('app/boot')
+              .then(null, console.error.bind(console));
+    </script>
+
+</head>
+<body>
+    <hc>Loading...</hc>
+</body>
+</html>

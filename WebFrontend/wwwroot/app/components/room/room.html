@@ -1,0 +1,19 @@
+<h1>{{Room.Name}}</h1>
+<div class="row" *ngFor="#light of Room.Lights">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-10">{{light.Name}}</div>
+        </div>
+        <div class="row" *ngFor="#channel of light.Channels">
+            <div class="col-xs-8">
+                <input #slider type="range" step="1" min="{{channel.Min}}" max="{{channel.Max}}" [(ngModel)]="channel.Value" (ngModelChange)="ChannelChanged(channel)" />
+            </div>
+            <div class="col-xs-2">
+                {{channel.Value}}
+            </div>
+            <div class="col-xs-2">
+                {{channel.Target}}
+            </div>
+        </div>
+    </div>
+</div>
