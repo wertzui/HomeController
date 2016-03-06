@@ -1,6 +1,4 @@
 ﻿using ArtNet.Common;
-using ArtNet.Data.DAL;
-using ArtNet.Data.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,18 +13,11 @@ namespace ArtNet.Data
 {
     public class Persistence : IPersistence
     {
-        //private ArtDmxContext context;
         private static string DataFolder = Path.GetDirectoryName((Assembly.GetExecutingAssembly().Location)) + "\\ArtNet\\";
         static string GeneratFullPath(short universe) => $"{DataFolder}\\{universe}.json";
         public Persistence()
-        //: this(new ArtDmxContext())
         {
 
-        }
-
-        internal Persistence(ArtDmxContext context)
-        {
-            //this.context = context;
         }
 
         public async Task<ArtDmxPackage> GetAsync(short universe)

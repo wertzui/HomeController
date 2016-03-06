@@ -46,6 +46,7 @@ namespace FixtureRegister
 
                 case MethodType.Update:
                     UpdateChannels(message.Values);
+                    await GetFixtures("WebFrontend");
                     break;
             }
         }
