@@ -33,7 +33,7 @@ var ConfigService = (function () {
             if (room.Name == name)
                 return room;
         }
-        return { Name: 'Unknown room', Lights: [] };
+        return { Name: 'Unknown room', Lights: [], Temperatures: [] };
     };
     ConfigService.prototype.ChannelChanged = function (channel) {
         this.hub.sendMessage(channel.Target, [channel], HubService_1.MessageMethod.Update);

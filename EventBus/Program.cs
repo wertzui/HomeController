@@ -14,10 +14,10 @@ namespace SignalRSelfHost
         /// </summary>
         static void Main()
         {
-            var url = "http://*:1906";
+            const string url = "http://*:1906";
             using (WebApp.Start<Startup>(url))
             {
-                Console.WriteLine("Event Bus Server running at {0}", url);
+                Console.WriteLine($"Event Bus Server running at {url}");
                 Console.ReadLine();
             }
         }

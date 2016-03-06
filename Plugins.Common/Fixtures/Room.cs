@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Plugins.Common.Fixtures
 {
@@ -20,6 +16,14 @@ namespace Plugins.Common.Fixtures
         public IEnumerable<Light> Lights { get; set; }
 
         /// <summary>
+        /// Gets or sets the temperature sensors inside this room.
+        /// </summary>
+        /// <value>
+        /// The lights.
+        /// </value>
+        public IEnumerable<Temperature> Temperatures { get; set; }
+
+        /// <summary>
         /// Updates the channels for all fixtures inside this room with the new values.
         /// </summary>
         /// <param name="channels">The new channel values.</param>
@@ -28,6 +32,10 @@ namespace Plugins.Common.Fixtures
             foreach (var light in Lights)
             {
                 light.UpdateChannels(channels);
+            }
+            foreach (var temperature in Temperatures)
+            {
+                temperature.UpdateChannels(channels);
             }
         }
     }

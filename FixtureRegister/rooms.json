@@ -11,7 +11,8 @@
             "Target": "ArtNet",
             "Min": 0,
             "Max": 255,
-            "Value": 0
+            "Value": 0,
+            "CanBeModified":  true
           },
           {
             "Name": "2",
@@ -19,7 +20,8 @@
             "Target": "ArtNet",
             "Min": 0,
             "Max": 255,
-            "Value": 0
+            "Value": 0,
+            "CanBeModified": true
           },
           {
             "Name": "3",
@@ -27,7 +29,8 @@
             "Target": "ArtNet",
             "Min": 0,
             "Max": 255,
-            "Value": 0
+            "Value": 0,
+            "CanBeModified": true
           }
         ]
       },
@@ -40,9 +43,33 @@
             "Target": "ArtNet",
             "Min": 0,
             "Max": 255,
-            "Value": 0
+            "Value": 0,
+            "CanBeModified": true
           }
         ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperature",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperature",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
       }
     ]
   }

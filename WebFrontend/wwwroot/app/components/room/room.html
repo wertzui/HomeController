@@ -6,13 +6,30 @@
         </div>
         <div class="row" *ngFor="#channel of light.Channels">
             <div class="col-xs-8">
-                <input #slider type="range" step="1" min="{{channel.Min}}" max="{{channel.Max}}" [(ngModel)]="channel.Value" (ngModelChange)="ChannelChanged(channel)" />
+                <input #slider type="range" step="1" [ngClass]="{disabled: !channel.CanBeModified}" min="{{channel.Min}}" max="{{channel.Max}}" [(ngModel)]="channel.Value" (ngModelChange)="ChannelChanged(channel)" />
             </div>
             <div class="col-xs-2">
                 {{channel.Value}}
             </div>
             <div class="col-xs-2">
-                {{channel.Target}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngFor="#temperature of Room.Temperatures">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-10">{{temperature.Name}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+                <input #slider type="range" step="1" min="{{temperature.TargetTemperature.Min}}" max="{{temperature.TargetTemperature.Max}}" [(ngModel)]="temperature.TargetTemperature.Value" (ngModelChange)="ChannelChanged(temperature.TargetTemperature)" />
+            </div>
+            <div class="col-xs-2">
+                {{temperature.TargetTemperature.Value}}
+            </div>
+            <div class="col-xs-2">
+                {{temperature.MeasuredTemperature.Value}}
             </div>
         </div>
     </div>

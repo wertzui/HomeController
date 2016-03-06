@@ -30,7 +30,7 @@ namespace ArtNet
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns></returns>
-        protected override async Task OnReceiveAsync(Message message)
+        protected override Task OnReceiveAsync(Message message)
         {
             switch (message.Method)
             {
@@ -38,6 +38,7 @@ namespace ArtNet
                     UpdateReceived(message);
                     break;
             }
+            return Task.CompletedTask;
         }
 
         /// <summary>

@@ -25,10 +25,10 @@ namespace FixtureRegister
         /// Called before the connection is started.
         /// </summary>
         /// <returns></returns>
-        protected override async Task OnBeforeConnectionStart()
+        protected override async Task OnBeforeConnectionStartAsync()
         {
             await roomManager.StartAsync();
-            await base.OnBeforeConnectionStart();
+            await base.OnBeforeConnectionStartAsync();
         }
 
         /// <summary>

@@ -51,6 +51,7 @@
     <Compile Include="Fixtures\FixtureBase.cs" />
     <Compile Include="Fixtures\Light.cs" />
     <Compile Include="Fixtures\Room.cs" />
+    <Compile Include="Fixtures\Temperature.cs" />
     <Compile Include="HubClientBase.cs" />
     <Compile Include="IHubClient.cs" />
     <Compile Include="IPlugin.cs" />

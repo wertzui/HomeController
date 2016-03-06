@@ -14,6 +14,7 @@
         /// The type.
         /// </value>
         public string Type { get; set; }
+
         /// <summary>
         /// Gets or sets the target that will receive updates if the channel value is changed in the frontend.
         /// </summary>
@@ -21,6 +22,7 @@
         /// The target.
         /// </value>
         public string Target { get; set; }
+
         /// <summary>
         /// Gets or sets the minimum value of this channel.
         /// </summary>
@@ -28,6 +30,7 @@
         /// The minimum.
         /// </value>
         public double Min { get; set; }
+
         /// <summary>
         /// Gets or sets the maximum value of this channel.
         /// </summary>
@@ -35,6 +38,7 @@
         /// The maximum.
         /// </value>
         public double Max { get; set; }
+
         /// <summary>
         /// Gets or sets the current value of this channel.
         /// </summary>
@@ -42,5 +46,13 @@
         /// The value.
         /// </value>
         public double Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance can be modified of is this is a read-only channel.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance can be modified; otherwise, <c>false</c>.
+        /// </value>
+        public bool CanBeModified { get; set; }
     }
 }

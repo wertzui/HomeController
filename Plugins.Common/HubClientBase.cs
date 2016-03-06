@@ -15,6 +15,8 @@ namespace Plugins.Common
     {
         private HubConnection hubConnection;
         private IHubProxy eventHubProxy;
+        private const string joinMethodName = "JoinGroup";
+        private const string leaveMethodName = "LeaveGroup";
 
         /// <summary>
         /// Only Messages containing this Target or null as Target will be delivered to this Client.
@@ -56,15 +58,15 @@ namespace Plugins.Common
         /// <returns></returns>
         public async Task StartAsync()
         {
-            Console.WriteLine("Starting Hub {0}", Sender);
-            await OnBeforeConnectionStart();
+            Console.WriteLine($"Starting Hub {Sender}");
+            await OnBeforeConnectionStartAsync();
             hubConnection = new HubConnection(Url);
             hubConnection.JsonSerializer.Converters.Add(new StringEnumConverter());
             eventHubProxy = hubConnection.CreateHubProxy("EventHub");
             eventHubProxy.On<Message>("Receive",
                 async message => await OnReceiveAsync(message));
             await hubConnection.Start();
-            await JoinGroup(TargetFilter);
+            await JoinGroupAsync(TargetFilter);
             Console.WriteLine($"Hub {Sender} started with Group {TargetFilter}");
             await SendAsync(null, MethodType.StatusStarted);
         }
@@ -97,20 +99,14 @@ namespace Plugins.Common
         /// </summary>
         /// <param name="groupName">Name of the group.</param>
         /// <returns></returns>
-        private Task JoinGroup(string groupName)
-        {
-            return eventHubProxy.Invoke<Message>(nameof(JoinGroup), groupName);
-        }
+        private Task JoinGroupAsync(string groupName) => eventHubProxy.Invoke<Message>(joinMethodName, groupName);
 
         /// <summary>
         /// Leaves the given group in the event hub.
         /// </summary>
         /// <param name="groupName">Name of the group.</param>
         /// <returns></returns>
-        private Task LeaveGroup(string groupName)
-        {
-            return eventHubProxy.Invoke<Message>(nameof(LeaveGroup), groupName);
-        }
+        private Task LeaveGroupAsync(string groupName) => eventHubProxy.Invoke<Message>(leaveMethodName, groupName);
 
         /// <summary>
         /// Called when a new message from the event bus is received.
@@ -123,11 +119,11 @@ namespace Plugins.Common
         /// Called while the plugin is starting, but before the connection to the event hub is initialized.
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task OnBeforeConnectionStart() { }
+        protected virtual Task OnBeforeConnectionStartAsync() => Task.CompletedTask;
 
         #region IDisposable Support
 
-        protected bool disposedValue = false; // To detect redundant calls
+        protected bool disposedValue; // To detect redundant calls
 
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
@@ -171,6 +167,7 @@ namespace Plugins.Common
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable Support

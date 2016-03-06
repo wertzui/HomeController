@@ -6,8 +6,8 @@ import {Room, Channel, ConfigService} from '../../Services/ConfigService';
     selector: 'hc-room',
     templateUrl: 'app/components/room/room.html'
 })
-export class RoomComponent implements OnInit{
-    Room: Room = { Name: 'Getting Room from central config', Lights: [] };
+export class RoomComponent implements OnInit {
+    Room: Room = { Name: 'Getting Room from central config', Lights: [], Temperatures: [] };
 
     constructor(
         private router: Router,

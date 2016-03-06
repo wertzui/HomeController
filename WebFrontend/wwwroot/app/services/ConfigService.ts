@@ -8,6 +8,7 @@ export interface Channel {
     Min: number;
     Max: number;
     Value: number;
+    CanBeModified: boolean;
 }
 
 export interface Light {
@@ -15,9 +16,16 @@ export interface Light {
     Channels: Channel[];
 }
 
+export interface Temperature {
+    Name: string;
+    TargetTemperature: Channel;
+    MeasuredTemperature: Channel;
+}
+
 export interface Room {
     Name: string;
     Lights: Light[];
+    Temperatures: Temperature[];
 }
 
 @Injectable()
@@ -46,7 +54,7 @@ export class ConfigService {
             if (room.Name == name)
                 return room;
         }
-        return { Name: 'Unknown room', Lights: [] };
+        return { Name: 'Unknown room', Lights: [], Temperatures: [] };
     }
 
     ChannelChanged(channel: Channel) {

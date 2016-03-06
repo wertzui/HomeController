@@ -13,7 +13,7 @@ namespace ArtNet.Data
 {
     public class Persistence : IPersistence
     {
-        private static string DataFolder = Path.GetDirectoryName((Assembly.GetExecutingAssembly().Location)) + "\\ArtNet\\";
+        private static readonly string DataFolder = Path.GetDirectoryName((Assembly.GetExecutingAssembly().Location)) + "\\ArtNet\\";
         static string GeneratFullPath(short universe) => $"{DataFolder}\\{universe}.json";
         public Persistence()
         {

@@ -28,14 +28,15 @@ namespace Plugins.Common
         /// Stops the plugin.
         /// </summary>
         /// <returns></returns>
-        public async Task StopAsync()
+        public Task StopAsync()
         {
             Dispose();
+            return Task.CompletedTask;
         }
 
         #region IDisposable Support
 
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue; // To detect redundant calls
 
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
