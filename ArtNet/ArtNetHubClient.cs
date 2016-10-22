@@ -13,8 +13,11 @@ namespace ArtNet
     public class ArtNetHubClient : HubClientBase
     {
         readonly ArtNetFascade fascade;
-        const string artNetHost = "192.168.0.200";
         const short universe = 0;
+        private static readonly ISet<string> hosts = new HashSet<string>
+        {
+            "255.255.255.255"
+        };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArtNetHubClient"/> class.
@@ -22,7 +25,7 @@ namespace ArtNet
         public ArtNetHubClient()
             : base(nameof(ArtNet), nameof(ArtNet))
         {
-            fascade = new ArtNetFascade(universe, artNetHost);
+            fascade = new ArtNetFascade(universe, hosts);
         }
 
         /// <summary>

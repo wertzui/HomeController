@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebFrontend.Controllers
 {
@@ -10,7 +10,7 @@ namespace WebFrontend.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectPermanent("index.html");
         }
 
         public IActionResult About()

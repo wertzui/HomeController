@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <base href="/Index.html">
+    <base href="/">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomeController</title>
@@ -11,7 +11,24 @@
     <link rel="stylesheet" href="css/site.css" />
 
     <!-- 2. Load libraries -->
-    <script src="lib/es6-shim.min.js"></script>
+    <script src="lib/shim.min.js"></script>
+    <script src="lib/system.js"></script>
+    <!--<script src="lib/rx.js"></script>-->
+    <!--<script type="text/javascript">
+        (function () {
+            var g;
+            if (typeof (window) != null) g = window;
+            else if (typeof (global) != null) g = global;
+                // couldn't locate global
+            else return;
+            g.rxjs_observable_of =
+            g.rxjs_observable_forkJoin =
+            g.rxjs_observable_fromPromise = g.Rx.Observable;
+        })();
+    </script>-->
+    <script src="lib/zone.js"></script>
+    <script src="lib/Reflect.js"></script>
+    <!--<script src="lib/es6-shim.min.js"></script>
     <script src="lib/system-polyfills.js"></script>
 
     <script src="lib/angular2-polyfills.js"></script>
@@ -20,25 +37,22 @@
 
     <script src="lib/angular2.dev.js"></script>
     <script src="lib/http.dev.js"></script>
-    <script src="lib/router.dev.js"></script>
+    <script src="lib/router.dev.js"></script>-->
 
     <script src="lib/jquery.js"></script>
-    <script src="lib/jquery.signalr-2.2.0.js"></script>
+    <script src="lib/jquery.signalR.js"></script>
     <script src="lib/base.js"></script>
     <script src="lib/ui.js"></script>
+    <script src="lib/bootstrap.js"></script>
+
+    <script src="lib/globalize.js"></script>
+    <script src="lib/number.js"></script>
+    <script src="lib/date.js"></script>
+
     <!-- 3. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
     <script>
-        System.config({
-            packages: {
-                app: {
-                    defaultExtension: 'js'
-                }
-            }
-        });
-    </script>
-    <script>
-        System.import('app/boot')
-              .then(null, console.error.bind(console));
+      System.import('app').catch(function(err){ console.error(err); });
     </script>
 
 </head>

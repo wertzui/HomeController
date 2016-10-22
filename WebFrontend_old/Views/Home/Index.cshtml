@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div ng-controller="MainController">
+    <div ng-repeat="room in Values">
+        <h1>{{room.Name}}</h1>
+        <div ng-repeat="light in room.Lights">
+            <div class="row">
+                <div class="col-xs-10">{{light.Name}}</div>
+            </div>
+            <div ng-repeat="channel in light.Channels">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <input type="range" step="1" min="{{channel.Min}}" max="{{channel.Max}}" ng-model="channel.Value" ng-change="onValueChange(channel)" />
+                    </div>
+                    <div class="col-xs-2">
+                        {{channel.Value}}
+                    </div>
+                    <div class="col-xs-2">
+                        {{channel.Target}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pre>{{Values | json}}</pre>
+</div>

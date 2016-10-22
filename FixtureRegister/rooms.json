@@ -12,7 +12,7 @@
             "Min": 0,
             "Max": 255,
             "Value": 0,
-            "CanBeModified":  true
+            "CanBeModified": true
           },
           {
             "Name": "2",
@@ -53,7 +53,7 @@
       {
         "Name": "Temperatur",
         "MeasuredTemperature": {
-          "Name": "MeasuredTemperature",
+          "Name": "MeasuredTemperatureWohnzimmer",
           "Type": "Range",
           "Target": "Temparature",
           "Min": 0,
@@ -62,7 +62,301 @@
           "CanBeModified": false
         },
         "TargetTemperature": {
-          "Name": "TargetTemperature",
+          "Name": "TargetTemperatureWohnzimmer",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
+      }
+    ]
+  },
+  {
+    "Name": "Bad",
+    "Lights": [
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0,
+            "CanBeModified": true
+          }
+        ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperatureBad",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperatureBad",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
+      }
+    ]
+  },
+  {
+    "Name": "WC",
+    "Lights": [
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0,
+            "CanBeModified": true
+          }
+        ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperatureWC",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperatureWC",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
+      }
+    ]
+  },
+  {
+    "Name": "Flur",
+    "Lights": [
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0,
+            "CanBeModified": true
+          }
+        ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperatureFlur",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperatureFlur",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
+      }
+    ]
+  },
+  {
+    "Name": "Schlafzimmer",
+    "Lights": [
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0,
+            "CanBeModified": true
+          }
+        ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperatureSchlafzimmer",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperatureSchlafzimmer",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
+      }
+    ]
+  },
+  {
+    "Name": "Ankleide",
+    "Lights": [
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0,
+            "CanBeModified": true
+          }
+        ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperatureAnkleide",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperatureAnkleide",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
+      }
+    ]
+  },
+  {
+    "Name": "Gästezimmer",
+    "Lights": [
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0,
+            "CanBeModified": true
+          }
+        ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperatureGästezimmer",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperatureGästezimmer",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 30,
+          "Value": 0,
+          "CanBeModified": true
+        }
+      }
+    ]
+  },
+  {
+    "Name": "Kinderzimmer",
+    "Lights": [
+      {
+        "Name": "Weiß",
+        "Channels": [
+          {
+            "Name": "4",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0,
+            "Max": 255,
+            "Value": 0,
+            "CanBeModified": true
+          }
+        ]
+      }
+    ],
+    "Temperatures": [
+      {
+        "Name": "Temperatur",
+        "MeasuredTemperature": {
+          "Name": "MeasuredTemperatureKinderzimmer",
+          "Type": "Range",
+          "Target": "Temparature",
+          "Min": 0,
+          "Max": 0,
+          "Value": 0,
+          "CanBeModified": false
+        },
+        "TargetTemperature": {
+          "Name": "TargetTemperatureKinderzimmer",
           "Type": "Range",
           "Target": "Temparature",
           "Min": 0,

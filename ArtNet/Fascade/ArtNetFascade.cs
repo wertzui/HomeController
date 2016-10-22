@@ -27,12 +27,12 @@ namespace ArtNet.Fascade
         /// Initializes a new instance of the <see cref="ArtNetFascade"/> class.
         /// </summary>
         /// <param name="universe">The universe.</param>
-        /// <param name="host">The host.</param>
-        public ArtNetFascade(short universe, string host)
+        /// <param name="hosts">The hosts.</param>
+        public ArtNetFascade(short universe, ISet<string> hosts)
         {
             persistence = new Persistence();
             package = persistence.GetAsync(universe).Result;
-            sender = new Sender(host);
+            sender = new Sender(hosts);
             sendTimer = new Timer(10);
             sendTimer.Elapsed += sendTimer_Elapsed;
             sendTimer.Start();

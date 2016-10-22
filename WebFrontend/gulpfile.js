@@ -12,7 +12,8 @@ var paths = {
     webroot: "./wwwroot/",
     npmSrc: "./node_modules/",
     libTarget: "./wwwroot/lib/",
-    angular2: "./wwwroot/angular2/"
+    angular2: "./wwwroot/angular2/",
+    rxjs: "./wwwroot/lib/rxjs/"
 };
 
 paths.assets = paths.webroot + "assets/";
@@ -25,17 +26,30 @@ paths.assets = paths.webroot + "assets/";
 //paths.concatCssDest = paths.assets + "css/site.min.css";
 
 var libsToMove = [
-    paths.npmSrc + '/angular2/bundles/angular2-polyfills.js',
+    //paths.npmSrc + '/angular2/bundles/angular2-polyfills.js',
+    //paths.npmSrc + '/angular2/bundles/angular2.dev.js',
+    //paths.npmSrc + '/angular2/bundles/http.dev.js',
+    //paths.npmSrc + '/angular2/bundles/router.dev.js',
+    paths.npmSrc + '/@angular/core/bundles/core.umd.js',
+    paths.npmSrc + '/@angular/common/bundles/common.umd.js',
+    paths.npmSrc + '/@angular/compiler/bundles/compiler.umd.js',
+    paths.npmSrc + '/@angular/platform-browser/bundles/platform-browser.umd.js',
+    paths.npmSrc + '/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+    paths.npmSrc + '/@angular/http/bundles/http.umd.js',
+    paths.npmSrc + '/@angular/router/bundles/router.umd.js',
+    paths.npmSrc + '/@angular/forms/bundles/forms.umd.js',
+
     paths.npmSrc + '/systemjs/dist/system.js',
     paths.npmSrc + '/systemjs/dist/system-polyfills.js',
-    paths.npmSrc + '/rxjs/bundles/Rx.js',
-    paths.npmSrc + '/angular2/bundles/angular2.dev.js',
-    paths.npmSrc + '/angular2/bundles/http.dev.js',
-    paths.npmSrc + '/angular2/bundles/router.dev.js',
-    paths.npmSrc + '/es6-shim/es6-shim.min.js',
+    //paths.npmSrc + '/rxjs/bundles/Rx.js',
+    paths.npmSrc + '/core-js/client/shim.min.js',
+    paths.npmSrc + '/zone.js/dist/zone.js',
+    paths.npmSrc + '/reflect-metadata/Reflect.js',
+    paths.npmSrc + '/core-js/client/shim.min.js',
+    //paths.npmSrc + '/es6-shim/es6-shim.min.js',
 
-    paths.npmSrc + '/ms-signalr-client/jquery.signalr-2.2.0.js',
-    paths.npmSrc + '/ms-signalr-client/node_modules/jquery/dist/jquery.js',
+    paths.npmSrc + '/ms-signalr-client/jquery.signalR.js',
+    paths.npmSrc + '/jquery/dist/jquery.js',
 
     paths.npmSrc + '/bootstrap/dist/css/bootstrap.css',
     paths.npmSrc + '/bootstrap/dist/js/bootstrap.js',
@@ -43,8 +57,12 @@ var libsToMove = [
     paths.npmSrc + '/winjs/css/ui-dark.css',
     paths.npmSrc + '/winjs/js/base.js',
     paths.npmSrc + '/winjs/js/ui.js',
+
+    paths.npmSrc + '/globalize/dist/globalize.js',
+    paths.npmSrc + '/globalize/dist/globalize/number.js',
+    paths.npmSrc + '/globalize/dist/globalize/date.js'
 ];
-gulp.task('moveToLibs', function () {
+gulp.task('move-rxjs', ['compile-rxjs'], function () {
     return gulp.src(libsToMove)
         .pipe(gulp.dest(paths.libTarget));
 });
@@ -88,3 +106,35 @@ gulp.task('watch', function () {
 //});
 
 //gulp.task("min", ["min:js", "min:css"]);
+
+
+// special case for rxjs as there is a bug
+const Builder = require("systemjs-builder");
+// SystemJS build options.
+var options = {
+    normalize: true,
+    runtime: false,
+    sourceMaps: true,
+    sourceMapContents: true,
+    minify: false,
+    mangle: false
+};
+var builder = new Builder('./');
+builder.config({
+    paths: {
+        "n:*": "node_modules/*",
+        "rxjs/*": "node_modules/rxjs/*.js",
+    },
+    map: {
+        "rxjs": "n:rxjs",
+    },
+    packages: {
+        "rxjs": { main: "Rx.js", defaultExtension: "js" },
+    }
+});
+gulp.task('move-rxjs', function () {
+    return gulp.src(paths.npmSrc + '/rxjs/**/*.js')
+        .pipe(gulp.dest(paths.rxjs));
+    //builder.bundle('rxjs', paths.libTarget + 'Rx.js', options);
+});
+

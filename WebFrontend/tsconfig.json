@@ -1,17 +1,18 @@
-﻿{
+{
+  "compileOnSave": true,
   "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
-    "noEmitOnError": true,
-    "noImplicitAny": false,
-    "outDir": "wwwroot/app",
     "removeComments": false,
-    "sourceMap": true,
-    "target": "es5"
+    "noImplicitAny": false
   },
   "exclude": [
-    "node_modules",
-    "typings"
+    "node_modules"
+    //"wwwroot",
+    //"typings"
   ]
 }

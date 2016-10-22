@@ -1,0 +1,54 @@
+﻿@foreground-color: rgb(255,255,255);
+@active-color: rgb(125,125,125);
+@checked-color: rgb(0, 120, 215);
+
+@base-height: 2em;
+@base-width: 3.5em;
+@border-width: @base-height / 10;
+@border-radius: @base-height / 2 - @border-width;
+
+
+.switch {
+    position: relative;
+    width: @base-width;
+    height: @base-height;
+
+    input {
+        display: none;
+
+        &:checked + label {
+            border-color: @checked-color;
+            background-color: @checked-color;
+
+            span {
+                left: @base-width - @base-height + @border-radius;
+            }
+        }
+    }
+
+    label {
+        display: block;
+        overflow: hidden;
+        cursor: pointer;
+        border: @border-width solid @foreground-color;
+        border-radius: @border-radius;
+        height: @base-height - 2 * @border-width;
+
+        &:active {
+            border-color: @active-color !important;
+            background-color: @active-color !important;
+        }
+
+        span {
+            display: block;
+            width: @border-radius;
+            height: @border-radius;
+            background: @foreground-color;
+            position: absolute;
+            top: @border-radius / 2;
+            left: @border-radius / 2;
+            border-radius: @border-radius;
+            transition: all 0.2s ease 0.1s;
+        }
+    }
+}
