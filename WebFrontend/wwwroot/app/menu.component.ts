@@ -23,5 +23,6 @@ export class MenuComponent {
 
     navigateTo(room: Room) {
         this.navigationService.navigateToRoom(room);
+        this.toggleOpen();
     }
 }

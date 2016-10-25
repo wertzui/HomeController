@@ -8,21 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var FormatPipe = (function () {
-    function FormatPipe() {
-    }
-    FormatPipe.prototype.transform = function (value) {
+const core_1 = require('@angular/core');
+let FormatPipe = class FormatPipe {
+    transform(value) {
         return value.toFixed(2);
-    };
-    FormatPipe = __decorate([
-        core_1.Pipe({
-            name: 'format',
-            pure: true
-        }), 
-        __metadata('design:paramtypes', [])
-    ], FormatPipe);
-    return FormatPipe;
-}());
+    }
+};
+FormatPipe = __decorate([
+    core_1.Pipe({
+        name: 'format',
+        pure: true
+    }), 
+    __metadata('design:paramtypes', [])
+], FormatPipe);
 exports.FormatPipe = FormatPipe;
 //# sourceMappingURL=format.pipe.js.map

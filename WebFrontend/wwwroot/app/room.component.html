@@ -11,8 +11,8 @@
             <div class="col-xs-1">
                 {{channel.Value}}
             </div>
-            <div class="col-xs-3">
-                <div class="switch">
+            <div [class.col-xs-3]="light.Name !== 'Weiß'" [class.col-xs-12]="light.Name === 'Weiß'">
+                <div class="switch" [class.big]="light.Name === 'Weiß'">
                     <input type="checkbox" [id]="channel.Name" (click)="ToggleChannel(channel)" [checked]="channel.Value > channel.Min" />
                     <label [attr.for]="channel.Name">
                         <span></span>

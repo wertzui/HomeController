@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "Name": "Wohnzimmer",
     "Lights": [
@@ -6,30 +6,30 @@
         "Name": "RGB",
         "Channels": [
           {
-            "Name": "1",
+            "Name": "33",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           },
           {
-            "Name": "2",
+            "Name": "34",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           },
           {
-            "Name": "3",
+            "Name": "35",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -38,12 +38,26 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "36",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 51.0,
+            "CanBeModified": true
+          }
+        ]
+      },
+      {
+        "Name": "Küche",
+        "Channels": [
+          {
+            "Name": "37",
+            "Type": "Range",
+            "Target": "ArtNet",
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -55,19 +69,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureWohnzimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureWohnzimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }
@@ -80,12 +94,12 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "16",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -97,19 +111,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureBad",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureBad",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }
@@ -122,12 +136,12 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "28",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -139,19 +153,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureWC",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureWC",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }
@@ -164,12 +178,12 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "12",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -181,19 +195,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureFlur",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureFlur",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }
@@ -206,12 +220,12 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "32",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -223,19 +237,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureSchlafzimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureSchlafzimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }
@@ -248,12 +262,12 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "24",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -265,19 +279,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureAnkleide",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureAnkleide",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }
@@ -290,12 +304,12 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "20",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -307,19 +321,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureGästezimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureGästezimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }
@@ -332,12 +346,12 @@
         "Name": "Weiß",
         "Channels": [
           {
-            "Name": "4",
+            "Name": "8",
             "Type": "Range",
             "Target": "ArtNet",
-            "Min": 0,
-            "Max": 255,
-            "Value": 0,
+            "Min": 0.0,
+            "Max": 255.0,
+            "Value": 0.0,
             "CanBeModified": true
           }
         ]
@@ -349,19 +363,19 @@
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureKinderzimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 0,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
           "CanBeModified": false
         },
         "TargetTemperature": {
           "Name": "TargetTemperatureKinderzimmer",
           "Type": "Range",
-          "Target": "Temparature",
-          "Min": 0,
-          "Max": 30,
-          "Value": 0,
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 30.0,
+          "Value": 0.0,
           "CanBeModified": true
         }
       }

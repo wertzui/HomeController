@@ -62,7 +62,7 @@ var libsToMove = [
     paths.npmSrc + '/globalize/dist/globalize/number.js',
     paths.npmSrc + '/globalize/dist/globalize/date.js'
 ];
-gulp.task('move-rxjs', ['compile-rxjs'], function () {
+gulp.task('moveToLibs', ['move-rxjs'], function () {
     return gulp.src(libsToMove)
         .pipe(gulp.dest(paths.libTarget));
 });

@@ -8,32 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var config_service_1 = require('./config.service');
-var navigation_service_1 = require('./navigation.service');
-var MenuComponent = (function () {
-    function MenuComponent(navigationService, configService) {
-        var _this = this;
+const core_1 = require('@angular/core');
+const config_service_1 = require('./config.service');
+const navigation_service_1 = require('./navigation.service');
+let MenuComponent = class MenuComponent {
+    constructor(navigationService, configService) {
         this.navigationService = navigationService;
         this.configService = configService;
         this.Rooms = configService.GetRooms();
         this.IsOpen = false;
-        configService.configChanged.subscribe(function (o) { _this.Rooms = configService.GetRooms(); });
+        configService.configChanged.subscribe(o => { this.Rooms = configService.GetRooms(); });
     }
-    MenuComponent.prototype.toggleOpen = function () {
+    toggleOpen() {
         this.IsOpen = !this.IsOpen;
-    };
-    MenuComponent.prototype.navigateTo = function (room) {
+    }
+    navigateTo(room) {
         this.navigationService.navigateToRoom(room);
-    };
-    MenuComponent = __decorate([
-        core_1.Component({
-            selector: 'hc-menu',
-            templateUrl: 'app/menu.component.html'
-        }), 
-        __metadata('design:paramtypes', [navigation_service_1.NavigationService, config_service_1.ConfigService])
-    ], MenuComponent);
-    return MenuComponent;
-}());
+        this.toggleOpen();
+    }
+};
+MenuComponent = __decorate([
+    core_1.Component({
+        selector: 'hc-menu',
+        templateUrl: 'app/menu.component.html'
+    }), 
+    __metadata('design:paramtypes', [navigation_service_1.NavigationService, config_service_1.ConfigService])
+], MenuComponent);
 exports.MenuComponent = MenuComponent;
 //# sourceMappingURL=menu.component.js.map

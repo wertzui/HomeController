@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+const core_1 = require('@angular/core');
 //export abstract class IHubService {
 //    abstract sendMessage(target: string, values: any, methodType: MessageMethod);
 //    abstract onReceive(callBack: (message: any) => any);
@@ -24,21 +24,18 @@ var ServerMethod;
     ServerMethod[ServerMethod["JoinGroup"] = 1] = "JoinGroup";
     ServerMethod[ServerMethod["LeaveGroup"] = 2] = "LeaveGroup";
 })(ServerMethod || (ServerMethod = {}));
-var Message = (function () {
-    function Message() {
-    }
-    return Message;
-}());
+class Message {
+}
 exports.Message = Message;
-var HubService = (function () {
-    function HubService() {
+let HubService_1 = class HubService {
+    constructor() {
         // start the connection
-        HubService.connection = $.hubConnection("http://Server:1906/signalr");
-        HubService.eventHubProxy = HubService.connection.createHubProxy("EventHub");
+        HubService_1.connection = $.hubConnection("http://Server:1906/signalr");
+        HubService_1.eventHubProxy = HubService_1.connection.createHubProxy("EventHub");
         var hub = this;
-        HubService.connection.start()
+        HubService_1.connection.start()
             .done(function () {
-            console.log('Now connected, connection ID=' + HubService.connection.id);
+            console.log('Now connected, connection ID=' + HubService_1.connection.id);
             hub.joinGroup("WebFrontend").done(function () {
                 hub.sendMessage("FixtureRegister", null, MessageMethod.Get);
             });
@@ -53,14 +50,14 @@ var HubService = (function () {
         });
         //super();
     }
-    HubService.prototype.sendMessage = function (target, values, methodType) {
+    sendMessage(target, values, methodType) {
         var message = this.createMessage(target, values, methodType);
         return this.invokeOnServer(ServerMethod.Send, message);
-    };
-    HubService.prototype.onReceive = function (callBack) {
-        return HubService.eventHubProxy.on("Receive", callBack);
-    };
-    HubService.prototype.createMessage = function (target, values, methodType) {
+    }
+    onReceive(callBack) {
+        return HubService_1.eventHubProxy.on("Receive", callBack);
+    }
+    createMessage(target, values, methodType) {
         return {
             Sender: "WebFrontend",
             Target: target,
@@ -68,9 +65,9 @@ var HubService = (function () {
             Values: values,
             Method: MessageMethod[methodType]
         };
-    };
-    HubService.prototype.invokeOnServer = function (method, message) {
-        return HubService.eventHubProxy.invoke(ServerMethod[method], message)
+    }
+    invokeOnServer(method, message) {
+        return HubService_1.eventHubProxy.invoke(ServerMethod[method], message)
             .fail(function (ex) {
             console.log("Error sending " + JSON.stringify(message));
             console.log(JSON.stringify(ex));
@@ -78,20 +75,20 @@ var HubService = (function () {
             .done(function () {
             console.log("Sent " + JSON.stringify(message));
         });
-    };
-    HubService.prototype.joinGroup = function (groupName) {
+    }
+    joinGroup(groupName) {
         return this.invokeOnServer(ServerMethod.JoinGroup, groupName);
-    };
+    }
     ;
-    HubService.prototype.leaveGroup = function (groupName) {
+    leaveGroup(groupName) {
         return this.invokeOnServer(ServerMethod.JoinGroup, groupName);
-    };
+    }
     ;
-    HubService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], HubService);
-    return HubService;
-}());
+};
+let HubService = HubService_1;
+HubService = HubService_1 = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [])
+], HubService);
 exports.HubService = HubService;
 //# sourceMappingURL=hub.service.js.map

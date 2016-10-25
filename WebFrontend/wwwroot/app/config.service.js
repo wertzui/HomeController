@@ -8,25 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var hub_service_1 = require('./hub.service');
-var ConfigService = (function () {
-    function ConfigService(hub) {
-        var _this = this;
+const core_1 = require('@angular/core');
+const hub_service_1 = require('./hub.service');
+let ConfigService = class ConfigService {
+    constructor(hub) {
         this.hub = hub;
         this.rooms = [];
         this.configChanged = new core_1.EventEmitter();
-        this.onReceive = function (message) {
+        this.onReceive = (message) => {
             if (message.Target == "WebFrontend") {
                 //this.rooms = message.Values;
-                _this.UpdateChangedValues(_this.rooms, message.Values);
-                _this.configChanged.emit(null);
+                this.UpdateChangedValues(this.rooms, message.Values);
+                this.configChanged.emit(null);
             }
         };
         //this.rooms = [{ Name: "Wohnzimmer", Lights: [{ Name: "Deckenlicht", Channels: [{ Name: "W", Type: "Dimmer", Target: "ArtNet", Min: 0, Max: 255, Value: 100 }] }] }];
         this.hub.onReceive(this.onReceive);
     }
-    ConfigService.prototype.UpdateChangedValues = function (oldObj, newObj) {
+    UpdateChangedValues(oldObj, newObj) {
         var oldPropertyNames = Object.getOwnPropertyNames(oldObj);
         var newPropertyNames = Object.getOwnPropertyNames(newObj);
         // remove properties that are not present in newObj
@@ -56,32 +55,30 @@ var ConfigService = (function () {
                 }
             }
         }
-    };
-    ConfigService.prototype.GetRooms = function () {
+    }
+    GetRooms() {
         return this.rooms;
-    };
-    ConfigService.prototype.GetRoom = function (name) {
-        for (var _i = 0, _a = this.rooms; _i < _a.length; _i++) {
-            var room = _a[_i];
+    }
+    GetRoom(name) {
+        for (var room of this.rooms) {
             if (room.Name == name)
                 return room;
         }
         return { Name: 'Unknown room', Lights: [], Temperatures: [] };
-    };
-    ConfigService.prototype.ChannelChanged = function (channel) {
+    }
+    ChannelChanged(channel) {
         this.hub.sendMessage(channel.Target, [channel], hub_service_1.MessageMethod.Update);
         this.hub.sendMessage("FixtureRegister", [channel], hub_service_1.MessageMethod.Update);
         //console.log(JSON.stringify(channel));
-    };
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], ConfigService.prototype, "configChanged", void 0);
-    ConfigService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [hub_service_1.HubService])
-    ], ConfigService);
-    return ConfigService;
-}());
+    }
+};
+__decorate([
+    core_1.Output(), 
+    __metadata('design:type', Object)
+], ConfigService.prototype, "configChanged", void 0);
+ConfigService = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [hub_service_1.HubService])
+], ConfigService);
 exports.ConfigService = ConfigService;
 //# sourceMappingURL=config.service.js.map

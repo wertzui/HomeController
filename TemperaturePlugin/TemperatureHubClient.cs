@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using Plugins.Common.Fixtures;
 using Microsoft.Owin.Hosting;
+using System.Linq;
 
 namespace TemperaturePlugin
 {
@@ -13,25 +14,12 @@ namespace TemperaturePlugin
     /// </summary>
     public class TemperatureHubClient : HubClientBase
     {
-        const string url = "http://*:1907";
-        IDisposable webApp;
-        internal static TemperatureHubClient Instance { get; private set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TemperatureHubClient"/> class.
         /// </summary>
         public TemperatureHubClient()
-            : base(nameof(TemperaturePlugin), nameof(TemperaturePlugin))
+            : base("Temperature", "Temperature")
         {
-            Instance = this;
-        }
-
-        protected override Task OnBeforeConnectionStartAsync()
-        {
-            webApp = WebApp.Start<Startup>(url);
-            Console.WriteLine($"Temperature Server running at {url}");
-
-            return base.OnBeforeConnectionStartAsync();
         }
 
         /// <summary>
@@ -44,34 +32,50 @@ namespace TemperaturePlugin
             switch (message.Method)
             {
                 case MethodType.Update:
-                    UpdateChannels(message.Values);
+                    UpdateReceived(message);
                     break;
             }
         }
 
-        private void UpdateChannels(IEnumerable<dynamic> values)
+        void UpdateReceived(Message message)
         {
-            foreach (var value in values)
+            if (message.Values != null)
             {
-                var room = value as Room;
-                if(room != null)
-                {
+                var channels = GetChannelsFromMessage(message.Values);
 
-                }
+                // send values to art net
+                TemperatureManager.UpdateTargetTemperatures(channels);
             }
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// Extracts key value pairs from the message values.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
+        static IEnumerable<Channel> GetChannelsFromMessage(IEnumerable<dynamic> channels)
         {
-            if (disposing)
+            var realChannels = new List<Channel>();
+            if (channels != null)
             {
-                webApp.Dispose();
+                foreach (var channel in channels)
+                {
+                    var name = channel.Name;
+                    var value = channel.Value;
+
+                    if (name != null && value != null)
+                    {
+                        var realName = name.ToString();
+                        double realValue;
+                        if (double.TryParse(value.ToString(), out realValue))
+                        {
+                            realChannels.Add(new Channel { Name = realName, Value = realValue });
+                        }
+                    }
+                }
             }
-            base.Dispose(disposing);
+
+            return realChannels;
         }
     }
 }

@@ -8,21 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var NavigationService = (function () {
-    function NavigationService(router) {
+const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
+let NavigationService = class NavigationService {
+    constructor(router) {
         this.router = router;
     }
-    NavigationService.prototype.navigateToRoom = function (room) {
-        var link = ['/room', room.Name];
+    navigateToRoom(room) {
+        let link = ['/room', room.Name];
         this.router.navigate(link);
-    };
-    NavigationService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], NavigationService);
-    return NavigationService;
-}());
+    }
+};
+NavigationService = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [router_1.Router])
+], NavigationService);
 exports.NavigationService = NavigationService;
 //# sourceMappingURL=navigation.service.js.map

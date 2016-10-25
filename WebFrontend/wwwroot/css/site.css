@@ -1,4 +1,4 @@
-﻿.navbar-inverse .dropdown-menu {
+.navbar-inverse .dropdown-menu {
   background-color: #222;
   border-color: #080808;
 }
@@ -21,6 +21,11 @@ body {
   position: relative;
   width: 3.5em;
   height: 2em;
+  /*@media (min-width: 992px) and (max-width: 1199px) {*/
+  /*}*/
+}
+.switch.big {
+  font-size: 25vw;
 }
 .switch input {
   display: none;

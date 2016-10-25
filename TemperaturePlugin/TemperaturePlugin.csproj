@@ -77,8 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeatIndexCalulcator.cs" />
-    <Compile Include="Startup.cs" />
-    <Compile Include="TemperatureController.cs" />
     <Compile Include="TemperatureHubClient.cs" />
     <Compile Include="TemperatureManager.cs" />
     <Compile Include="TemperaturePlugin.cs" />
