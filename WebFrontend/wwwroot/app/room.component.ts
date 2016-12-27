@@ -38,7 +38,7 @@ export class RoomComponent implements OnInit {
     }
 
     SwitchOn(channel: Channel) {
-        channel.Value = Math.floor(channel.Max / 5);
+        channel.Value = Math.floor(channel.Max / 10);
         this.ChannelChanged(channel);
     }
 

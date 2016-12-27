@@ -37,7 +37,7 @@ let RoomComponent = class RoomComponent {
         channel.IsCurrentlyBeingModified = false;
     }
     SwitchOn(channel) {
-        channel.Value = Math.floor(channel.Max / 5);
+        channel.Value = Math.floor(channel.Max / 10);
         this.ChannelChanged(channel);
     }
     SwitchOff(channel) {
