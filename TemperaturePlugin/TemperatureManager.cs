@@ -1,18 +1,20 @@
-﻿using Plugins.Common.Fixtures;
+﻿using Plugins.Common;
+using Plugins.Common.Fixtures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace TemperaturePlugin
 {
-    static class TemperatureManager
+    class TemperatureManager
     {
         // key is temperature fixture name, not room name
-        static IDictionary<string, Temperature> temperatures = new Dictionary<string, Temperature>();
-        static IDictionary<string, bool> termostatStatuses = new Dictionary<string, bool>();
+        IDictionary<string, Temperature> temperatures = new Dictionary<string, Temperature>();
+        IDictionary<string, bool> termostatStatuses = new Dictionary<string, bool>();
         static IDictionary<string, int> RelaisNumbers = new Dictionary<string, int>
         {
             {"Küche", 2 },
@@ -24,19 +26,45 @@ namespace TemperaturePlugin
             {"Gästezimmer", 8 },
             {"Kinderzimmer", 9 }
         };
-        const string baseUrl = "http://192.168.0.55/digital/";
+        const string heatingActorBaseUrl = "http://192.168.0.55/digital/";
         static int targetStringLength = "TargetTemperature".Length;
         static int measuredStringLength = "MeasuredTemperature".Length;
 
-        internal static void UpdateTargetTemperatures(IEnumerable<Channel> channels)
+        static IDictionary<string, string> temperatureSensorBaseUrls = new Dictionary<string, string>
         {
-            foreach (var channel in channels)
-            {
-                UpdateTargetTemperature(channel);
-            }
+            //{"Küche", "http://192.168.0.220/" },
+            {"Wohnzimmer", "http://192.168.0.220/" },
+            //{"Bad", "http://192.168.0.0/" },
+            //{"WC", "http://192.168.0.0/" },
+            //{"Ankleide", "http://192.168.0.0/" },
+            //{"Schlafzimmer", "http://192.168.0.0/" },
+            //{"Gästezimmer", "http://192.168.0.0/" },
+            //{"Kinderzimmer", "http://192.168.0.0/" }
+        };
+
+        readonly Timer measureTimer = new Timer(60000);
+        readonly IHubClient hubClient;
+        readonly HttpClient httpClient = new HttpClient();
+
+        public TemperatureManager(IHubClient hubClient)
+        {
+            this.hubClient = hubClient;
+            measureTimer.Elapsed += MeasureTimer_Elapsed;
+            measureTimer.Start();
         }
 
-        private static void UpdateTargetTemperature(Channel channel)
+        private async void MeasureTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            await MeasureAllTemperatures().ConfigureAwait(false);
+        }
+
+        internal Task UpdateTargetTemperatures(IEnumerable<Channel> channels)
+        {
+            var tasks = channels.Select(c => UpdateTargetTemperature(c)).ToList();
+            return Task.WhenAll(tasks);
+        }
+
+        private async Task UpdateTargetTemperature(Channel channel)
         {
             var temperatureName = GetFixtureNameFromTargetChannel(channel.Name);
             var savedTemperature = GetOrAddTemperature(temperatureName);
@@ -44,16 +72,16 @@ namespace TemperaturePlugin
             Console.WriteLine($"Updating temp - old: {savedTemperature.TargetTemperature.Value}, new: {channel.Value}");
             savedTemperature.TargetTemperature.Value = channel.Value;
 
-            UpdateTermostatState(savedTemperature);
+            await UpdateTermostatState(savedTemperature).ConfigureAwait(false);
         }
 
         private static string GetFixtureNameFromTargetChannel(string channelName) => channelName.Substring(targetStringLength);
 
 
-        private static Temperature GetOrAddTemperature(string temperatureName)
+        private Temperature GetOrAddTemperature(string temperatureName)
         {
             Temperature temperature;
-            if(!temperatures.TryGetValue(temperatureName, out temperature))
+            if (!temperatures.TryGetValue(temperatureName, out temperature))
             {
                 temperature = new Temperature
                 {
@@ -67,27 +95,46 @@ namespace TemperaturePlugin
             return temperature;
         }
 
-        //internal static Task UpdateMeasured(string name, double temperature, double humidity)
-        //{
-        //    Plugins.Common.Fixtures.Temperature fixture;
-        //    if (!temperatures.TryGetValue(name, out fixture))
-        //    {
-        //        fixture = new Plugins.Common.Fixtures.Temperature { Name = "Temperatur", MeasuredTemperature = new Channel { Name = name }, TargetTemperature = new Channel() };
-        //        temperatures[name] = fixture;
-        //    }
+        private async Task UpdateMeasuredTemperature(string name, double temperature, double humidity)
+        {
+            var savedTemperature = GetOrAddTemperature(name);
 
-        //    // no perceived temperature for now as the heat index works only above 26°C
-        //    //var perceivedTemperature = HeatIndexCalulcator.CalculateHeatIndex(temperature, humidity);
-        //    fixture.MeasuredTemperature.Value = temperature;
-        //    Console.WriteLine($"{fixture.Name}: {fixture.MeasuredTemperature.Value:N2} (Target: {fixture.TargetTemperature.Value:N2})");
+            // no perceived temperature for now as the heat index works only above 26°C
+            //var perceivedTemperature = HeatIndexCalulcator.CalculateHeatIndex(temperature, humidity);
+            Console.WriteLine($"Updating measured temp - old: {savedTemperature.MeasuredTemperature.Value}, new: {temperature}");
+            savedTemperature.MeasuredTemperature.Value = temperature;
 
-        //    return UpdateFixtureRegister(fixture);
-        //}
+            await UpdateTermostatState(savedTemperature).ConfigureAwait(false);
 
-        //private static Task UpdateFixtureRegister(Plugins.Common.Fixtures.Temperature fixture)
-        //     => TemperatureHubClient.Instance.SendAsync(new[] { fixture.MeasuredTemperature }, EventBus.Messaging.MethodType.Update, "FixtureRegister");
+            await UpdateFixtureRegister(savedTemperature).ConfigureAwait(false);
+        }
 
-        static Task UpdateTermostatState(Temperature fixture)
+        private Task UpdateFixtureRegister(Temperature fixture)
+             => hubClient.SendAsync(new[] { fixture.MeasuredTemperature }, EventBus.Messaging.MethodType.Update, "FixtureRegister");
+
+        private Task MeasureAllTemperatures()
+        {
+            var tasks = temperatureSensorBaseUrls.Keys.Select(k => MeasureTemperature(k)).ToList();
+            return Task.WhenAll(tasks);
+        }
+
+        private async Task MeasureTemperature(string name)
+        {
+            try
+            {
+                await httpClient.GetAsync(GetTemperatureSensorUpdateUrl(name)).ConfigureAwait(false);
+                var result = await httpClient.GetAsync(GetTemperatureSensorMeasureUrl(name)).ConfigureAwait(false);
+                var measured = await result.Content.ReadAsAsync<TemperatureMeasureResult>().ConfigureAwait(false);
+                await UpdateMeasuredTemperature(name, measured.Variables.RealTemperature, measured.Variables.RealHumidity).ConfigureAwait(false);
+            }
+            catch { }
+        }
+        private static string GetTemperatureSensorMeasureUrl(string name)
+            => $"{temperatureSensorBaseUrls[name]}";
+        private static string GetTemperatureSensorUpdateUrl(string name)
+            => GetTemperatureSensorMeasureUrl(name) + "update";
+
+        Task UpdateTermostatState(Temperature fixture)
         {
             if (fixture.MeasuredTemperature.Value < fixture.TargetTemperature.Value)
                 return TryOpenTermostat(fixture.Name);
@@ -95,7 +142,7 @@ namespace TemperaturePlugin
                 return TryCloseTermostat(fixture.Name);
         }
 
-        private static async Task TryOpenTermostat(string name)
+        private async Task TryOpenTermostat(string name)
         {
             Console.WriteLine($"Trying to open termonstat {name}");
             var isOpen = false;
@@ -104,17 +151,14 @@ namespace TemperaturePlugin
             if (!isOpen)
             {
                 // send open command
-                var url = GetUrl(name, true);
+                var url = GetHeatingActorUrl(name, true);
                 Console.WriteLine($"Opening termostat with URL {url}");
-                using (var client = new HttpClient())
-                {
-                    await client.GetAsync(url);
-                }
+                await httpClient.GetAsync(url).ConfigureAwait(false);
                 termostatStatuses[name] = true;
             }
         }
 
-        private static async Task TryCloseTermostat(string name)
+        private async Task TryCloseTermostat(string name)
         {
             Console.WriteLine($"Trying to close termonstat {name}");
             var isOpen = false;
@@ -123,17 +167,14 @@ namespace TemperaturePlugin
             if (isOpen)
             {
                 // send close command
-                var url = GetUrl(name, false);
+                var url = GetHeatingActorUrl(name, false);
                 Console.WriteLine($"Closing termostat with URL {url}");
-                using (var client = new HttpClient())
-                {
-                    await client.GetAsync(url);
-                }
+                await httpClient.GetAsync(url).ConfigureAwait(false);
                 termostatStatuses[name] = false;
             }
         }
 
-        private static string GetUrl(string name, bool targetTermostatStatus)
-            => $"{baseUrl}{RelaisNumbers[name]}/{(targetTermostatStatus ? 0 : 1)}";
+        private static string GetHeatingActorUrl(string name, bool targetTermostatStatus)
+            => $"{heatingActorBaseUrl}{RelaisNumbers[name]}/{(targetTermostatStatus ? 0 : 1)}";
     }
 }

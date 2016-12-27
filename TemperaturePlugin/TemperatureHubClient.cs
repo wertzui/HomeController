@@ -14,12 +14,15 @@ namespace TemperaturePlugin
     /// </summary>
     public class TemperatureHubClient : HubClientBase
     {
+        private readonly TemperatureManager temperatureManager;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TemperatureHubClient"/> class.
         /// </summary>
         public TemperatureHubClient()
             : base("Temperature", "Temperature")
         {
+            temperatureManager = new TemperatureManager(this);
         }
 
         /// <summary>
@@ -32,19 +35,19 @@ namespace TemperaturePlugin
             switch (message.Method)
             {
                 case MethodType.Update:
-                    UpdateReceived(message);
+                    await UpdateReceived(message).ConfigureAwait(false);
                     break;
             }
         }
 
-        void UpdateReceived(Message message)
+        async Task UpdateReceived(Message message)
         {
             if (message.Values != null)
             {
                 var channels = GetChannelsFromMessage(message.Values);
 
                 // send values to art net
-                TemperatureManager.UpdateTargetTemperatures(channels);
+                await temperatureManager.UpdateTargetTemperatures(channels).ConfigureAwait(false);
             }
         }
 

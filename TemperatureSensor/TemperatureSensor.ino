@@ -1,93 +1,101 @@
 /*
- Name:		TemperatureSensor.ino
- Created:	4/17/2016 2:03:24 PM
- Author:	spbwe
+This a simple example of the aREST Library for Arduino (Uno/Mega/Due/Teensy)
+using the Ethernet library (for example to be used with the Ethernet shield).
+See the README file for more details.
+
+Written in 2014 by Marco Schwartz under a GPL license.
 */
 
-#include <Ethernet.h>
-#include <SPI.h>
+// Libraries
+#include <DHT_U.h>
 #include <DHT.h>
-#include "RestClient.h"
+#include <SPI.h>
+#include <Ethernet.h>
+#include <aREST.h>
+#include <avr/wdt.h>
 
-// rest
-RestClient client = RestClient("192.168.0.198", 1907);
-String response;
-void test_response() {
-	if (response == "OK") {
-		Serial.println("TEST RESULT: ok (response body)");
-	}
-	else {
-		Serial.println("TEST RESULT: fail (response body = " + response + ")");
-	}
-	response = "";
-}
-
-// temperature
 #define DHTPIN 2     // what digital pin we're connected to
-// Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
 #define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
-//#define DHTTYPE DHT21   // DHT 21 (AM2301)
 DHT dht(DHTPIN, DHTTYPE);
+
+// Enter a MAC address for your controller below.
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xFE, 0x40 }; // Heating Actor
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x48, 0x8B, 0xF8 }; // Temperature Sensor WZ
+
+// IP address in case DHCP fails
+//IPAddress ip(192, 168, 0, 55); // Heating Actor
+IPAddress ip(192, 168, 0, 220); // Temperature Sensor WZ
+
+// Ethernet server
+EthernetServer server(80);
+
+// Create aREST instance
+aREST rest = aREST();
+
+// Variables to be exposed to the API
+int temperatureTimes10;
+int humidityTimes10;
 float temperature;
 float humidity;
-bool anyChanges;
-char messageFormat[] = "{name:\"MeasuredTemperatureWohnzimmer\",temperature:%02d.%02d,humidity:%02d.%02d}";
-char message[] = "{name:\"MeasuredTemperatureWohnzimmer\",temperature:00.00,humidity:00.00}";
+int updateResult[] = { temperatureTimes10 , humidityTimes10 };
 
-// the setup function runs once when you press reset or power the board
-void setup() {
+void setup(void)
+{
+	// Start Serial
 	Serial.begin(115200);
-	Serial.println("Starting client");
-	client.dhcp();
-	client.setContentType("application/json");
-	Serial.println("Client started");
+
 	dht.begin();
+
+	// Init variables and expose them to REST API
+	temperatureTimes10 = 0;
+	humidityTimes10 = 0;
+	rest.variable("temperature", &temperatureTimes10);
+	rest.variable("humidity", &humidityTimes10);
+
+	// Function to be exposed
+	rest.function("update", update);
+
+	// Give name & ID to the device (ID should be 6 characters long)
+	rest.set_id("008");
+	rest.set_name("dapper_drake");
+
+	// Start the Ethernet connection and the server
+	//if (Ethernet.begin(mac) == 0) {
+		//Serial.println("Failed to configure Ethernet using DHCP");
+		// no point in carrying on, so do nothing forevermore:
+		// try to congifure using IP address instead of DHCP:
+		Ethernet.begin(mac, ip);
+	//}
+	server.begin();
+	Serial.print("server is at ");
+	Serial.println(Ethernet.localIP());
+
+	// Start watchdog
+	wdt_enable(WDTO_4S);
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
-	delay(2000);
-	readTemperature();
-	sendTemperature();
+
+	// listen for incoming clients
+	EthernetClient client = server.available();
+	rest.handle(client);
+	//rest.handle(Serial);
+	wdt_reset();
+
 }
 
-void readTemperature()
-{
-	float t = dht.readTemperature();
-	float h = dht.readHumidity();
+// Custom function accessible by the API
+int update(String command) {
 
-	if (temperature != t)
-	{
-		temperature = t;
-		anyChanges = true;
-	}
+	// Get state from command
+	humidity = dht.readHumidity();
+	temperature = dht.readTemperature();
 
-	if (humidity != h)
-	{
-		humidity = h;
-		anyChanges = true;
-	}
-}
+	humidityTimes10 = humidity * 10;
+	temperatureTimes10 = temperature * 10;
 
-void sendTemperature()
-{
-	if (anyChanges)
-	{
-		anyChanges = false;
+	updateResult[0] = temperatureTimes10;
+	updateResult[1] = humidityTimes10;
 
-		constructMessage();
-
-		Serial.println(message);
-		client.post("/Temperature", message, &response);
-		test_response();
-	}
-}
-
-void constructMessage()
-{
-	// sprintf does only work with integers on the arduino, so we have to format the decimal places as separate integers
-	sprintf(message, messageFormat,
-		(int)temperature, (int)((temperature - ((int)temperature)) * 100),
-		(int)humidity, (int)((humidity - ((int)humidity)) * 100));
+	return 0;
 }

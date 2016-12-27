@@ -79,6 +79,7 @@
     <Compile Include="HeatIndexCalulcator.cs" />
     <Compile Include="TemperatureHubClient.cs" />
     <Compile Include="TemperatureManager.cs" />
+    <Compile Include="TemperatureMeasureResult.cs" />
     <Compile Include="TemperaturePlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
