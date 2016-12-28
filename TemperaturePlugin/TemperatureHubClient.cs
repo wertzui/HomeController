@@ -80,5 +80,11 @@ namespace TemperaturePlugin
 
             return realChannels;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            temperatureManager?.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

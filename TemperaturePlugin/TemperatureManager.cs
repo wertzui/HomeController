@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace TemperaturePlugin
 {
-    class TemperatureManager
+    class TemperatureManager : IDisposable
     {
         // key is temperature fixture name, not room name
         IDictionary<string, Temperature> temperatures = new Dictionary<string, Temperature>();
@@ -32,14 +32,14 @@ namespace TemperaturePlugin
 
         static IDictionary<string, string> temperatureSensorBaseUrls = new Dictionary<string, string>
         {
-            //{"Küche", "http://192.168.0.220/" },
+            {"Küche", "http://192.168.0.220/" },
             {"Wohnzimmer", "http://192.168.0.220/" },
-            //{"Bad", "http://192.168.0.0/" },
-            //{"WC", "http://192.168.0.0/" },
-            //{"Ankleide", "http://192.168.0.0/" },
+            {"Bad", "http://192.168.0.221/" },
+            //{"WC", "http://192.168.0.222/" },
+            {"Ankleide", "http://192.168.0.223/" },
             //{"Schlafzimmer", "http://192.168.0.0/" },
-            //{"Gästezimmer", "http://192.168.0.0/" },
-            //{"Kinderzimmer", "http://192.168.0.0/" }
+            {"Gästezimmer", "http://192.168.0.225/" },
+            {"Kinderzimmer", "http://192.168.0.226/" }
         };
 
         readonly Timer measureTimer = new Timer(60000);
@@ -102,11 +102,14 @@ namespace TemperaturePlugin
             // no perceived temperature for now as the heat index works only above 26°C
             //var perceivedTemperature = HeatIndexCalulcator.CalculateHeatIndex(temperature, humidity);
             Console.WriteLine($"Updating measured temp - old: {savedTemperature.MeasuredTemperature.Value}, new: {temperature}");
-            savedTemperature.MeasuredTemperature.Value = temperature;
 
-            await UpdateTermostatState(savedTemperature).ConfigureAwait(false);
+            if (savedTemperature.MeasuredTemperature.Value != temperature)
+            {
+                savedTemperature.MeasuredTemperature.Value = temperature;
 
-            await UpdateFixtureRegister(savedTemperature).ConfigureAwait(false);
+                await UpdateTermostatState(savedTemperature).ConfigureAwait(false);
+                await UpdateFixtureRegister(savedTemperature).ConfigureAwait(false);
+            }
         }
 
         private Task UpdateFixtureRegister(Temperature fixture)
@@ -127,7 +130,10 @@ namespace TemperaturePlugin
                 var measured = await result.Content.ReadAsAsync<TemperatureMeasureResult>().ConfigureAwait(false);
                 await UpdateMeasuredTemperature(name, measured.Variables.RealTemperature, measured.Variables.RealHumidity).ConfigureAwait(false);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Unable to measure temperature {name}. {e}");
+            }
         }
         private static string GetTemperatureSensorMeasureUrl(string name)
             => $"{temperatureSensorBaseUrls[name]}";
@@ -176,5 +182,29 @@ namespace TemperaturePlugin
 
         private static string GetHeatingActorUrl(string name, bool targetTermostatStatus)
             => $"{heatingActorBaseUrl}{RelaisNumbers[name]}/{(targetTermostatStatus ? 0 : 1)}";
+
+        #region IDisposable Support
+        private bool disposedValue; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    httpClient?.Dispose();
+                    measureTimer?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

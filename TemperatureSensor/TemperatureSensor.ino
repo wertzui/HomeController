@@ -20,11 +20,23 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // Enter a MAC address for your controller below.
 //byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0xFE, 0x40 }; // Heating Actor
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x48, 0x8B, 0xF8 }; // Temperature Sensor WZ
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x48, 0x8B, 0xF8 }; // Temperature Sensor Wohnzimmer
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0xD2, 0x39, 0x1D }; // Temperature Sensor Bad
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0xDB, 0xD0, 0x4B }; // Temperature Sensor WC
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0xA4, 0xBB, 0x6E }; // Temperature Sensor Ankleide
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0xB1, 0x4A, 0x75 }; // Temperature Sensor Schlafzimmer
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x01, 0x02, 0xC6 }; // Temperature Sensor Gästezimmer
+//byte mac[] = { 0x90, 0xA2, 0xDA, 0x5F, 0x86, 0xB3 }; // Temperature Sensor Kinderzimmer
 
 // IP address in case DHCP fails
 //IPAddress ip(192, 168, 0, 55); // Heating Actor
-IPAddress ip(192, 168, 0, 220); // Temperature Sensor WZ
+//IPAddress ip(192, 168, 0, 220); // Temperature Sensor Wohnzimmer
+//IPAddress ip(192, 168, 0, 221); // Temperature Sensor Bad
+//IPAddress ip(192, 168, 0, 222); // Temperature Sensor WC
+//IPAddress ip(192, 168, 0, 223); // Temperature Sensor Ankleide
+//IPAddress ip(192, 168, 0, 224); // Temperature Sensor Schlafzimmer
+//IPAddress ip(192, 168, 0, 225); // Temperature Sensor Gästezimmer
+//IPAddress ip(192, 168, 0, 226); // Temperature Sensor Kinderzimmer
 
 // Ethernet server
 EthernetServer server(80);
