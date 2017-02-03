@@ -35,7 +35,7 @@ namespace TemperaturePlugin
             {"Küche", "http://192.168.0.220/" },
             {"Wohnzimmer", "http://192.168.0.220/" },
             {"Bad", "http://192.168.0.221/" },
-            //{"WC", "http://192.168.0.222/" },
+            {"WC", "http://192.168.0.222/" },
             {"Ankleide", "http://192.168.0.223/" },
             //{"Schlafzimmer", "http://192.168.0.0/" },
             {"Gästezimmer", "http://192.168.0.225/" },
@@ -159,7 +159,14 @@ namespace TemperaturePlugin
                 // send open command
                 var url = GetHeatingActorUrl(name, true);
                 Console.WriteLine($"Opening termostat with URL {url}");
-                await httpClient.GetAsync(url).ConfigureAwait(false);
+                try
+                {
+                    await httpClient.GetAsync(url).ConfigureAwait(false);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 termostatStatuses[name] = true;
             }
         }
