@@ -60,3 +60,9 @@ body {
   border-radius: 0.8em;
   transition: all 0.2s ease 0.1s;
 }
+.noselect {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
