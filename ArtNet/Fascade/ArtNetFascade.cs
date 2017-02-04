@@ -14,12 +14,15 @@ namespace ArtNet.Fascade
     {
         bool hasChangedSinceLastSave;
         bool hasChangedSinceLastSend;
-        ArtDmxPackage package;
+        bool hasRunningFade;
+        ArtDmxPackage package; // this is the current value
+        ArtDmxPackage targetPackage; // we want to fade to this value
         Persistence persistence;
         object saveLock = new object();
         Timer saveTimer;
         Sender sender;
         Timer sendTimer;
+        Timer fadeTimer;
 
         //private IDictionary<short, Fade> fades;
 
@@ -32,6 +35,7 @@ namespace ArtNet.Fascade
         {
             persistence = new Persistence();
             package = persistence.GetAsync(universe).Result;
+            targetPackage = persistence.GetAsync(universe).Result;
             sender = new Sender(hosts);
             sendTimer = new Timer(10);
             sendTimer.Elapsed += sendTimer_Elapsed;
@@ -39,8 +43,39 @@ namespace ArtNet.Fascade
             saveTimer = new Timer(2000);
             saveTimer.Elapsed += saveTimer_Elapsed;
             saveTimer.Start();
+            fadeTimer = new Timer(100);
+            fadeTimer.Elapsed += FadeTimer_Elapsed;
+            fadeTimer.Start();
             //fades = new Dictionary<short, Fade>();
         }
+
+        private void FadeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (hasRunningFade)
+            {
+                hasRunningFade = false;
+                byte current;
+                byte target;
+                for (short i = ArtDmxPackage.MinAddress; i <= ArtDmxPackage.MaxAddress; i++)
+                {
+                    current = package.Get(i);
+                    target = targetPackage.Get(i);
+                    if (current < target)
+                    {
+                        package.Set(i, (byte)(current + 1));
+                        hasChangedSinceLastSend = true;
+                        hasRunningFade = true;
+                    }
+                    else if (current > target)
+                    {
+                        package.Set(i, (byte)(current - 1));
+                        hasChangedSinceLastSend = true;
+                        hasRunningFade = true;
+                    }
+                }
+            }
+        }
+
         public short Universe { get { return package.Universe; } }
 
         /// <summary>
@@ -66,9 +101,10 @@ namespace ArtNet.Fascade
         {
             if (Get(address) != value)
             {
-                package.Set(address, value);
+                targetPackage.Set(address, value);
                 hasChangedSinceLastSend = true;
                 hasChangedSinceLastSave = true;
+                hasRunningFade = true;
             }
         }
 
@@ -92,9 +128,10 @@ namespace ArtNet.Fascade
                 var anyChange = pairs.Any(p => Get(p.Address) != p.Value);
                 if (anyChange)
                 {
-                    package.Set(pairs);
+                    targetPackage.Set(pairs);
                     hasChangedSinceLastSend = true;
                     hasChangedSinceLastSave = true;
+                    hasRunningFade = true;
                 }
             }
         }
@@ -111,7 +148,7 @@ namespace ArtNet.Fascade
                 hasChangedSinceLastSave = false;
                 lock (saveLock)
                 {
-                    persistence.UpdateAsync(package).Wait();
+                    persistence.UpdateAsync(targetPackage).Wait();
                 }
             }
         }

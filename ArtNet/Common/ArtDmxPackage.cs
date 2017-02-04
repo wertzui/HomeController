@@ -21,8 +21,8 @@ namespace ArtNet.Common
         const byte HeaderLength = 18;
         const short MinDataLength = 2;
         const short MaxDataLength = 512;
-        const short MinAddress = 1;
-        const short MaxAddress = 512;
+        public const short MinAddress = 1;
+        public const short MaxAddress = 512;
 
         /// <summary>
         /// Gets or sets the ArtNet sequence number.
@@ -189,5 +189,11 @@ namespace ArtNet.Common
             if (address >= MinAddress && address <= MaxAddress)
                 Data[address - 1] = value;
         }
+
+        /// <summary>
+        /// Gets the value for the specified DMX address.
+        /// </summary>
+        /// <param name="address">The DMX address.</param>
+        public byte Get(short address) => Data[address - 1];
     }
 }
