@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace PluginHost
 {
@@ -29,7 +30,7 @@ namespace PluginHost
         public string HubUri { get; set; }
 
         /// <summary>
-        /// Stores the number of loaded plugins after <see cref="LoadPlugins"/> was called.
+        /// Stores the number of loaded plugins after <see cref="LoadPluginsAsync"/> was called.
         /// </summary>
         /// <value>
         /// The number of loaded plugins.
@@ -39,7 +40,7 @@ namespace PluginHost
         /// <summary>
         /// Loads all plugins in the given assenmbly.
         /// </summary>
-        public void LoadPlugins()
+        public async Task LoadPluginsAsync()
         {
             var plugins = new List<IPlugin>();
 
@@ -60,7 +61,7 @@ namespace PluginHost
                         var plugin = (IPlugin)constructor.Invoke(null);
                         plugins.Add(plugin);
                         Console.WriteLine("Plugin of type {0} created", pluginType.Name);
-                        plugin.StartAsync(HubUri).Wait();
+                        await plugin.StartAsync(HubUri).ConfigureAwait(false);
                         Console.WriteLine("{0}.StartAsync({1}) called", pluginType.Name, HubUri);
                     }
                     else

@@ -1,0 +1,47 @@
+﻿<h1 noselect>{{Room.Name}}</h1>
+<div class="row" *ngFor="let light of Room.Lights">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-10 noselect">{{light.Name}}</div>
+        </div>
+        <div class="row" *ngFor="let channel of light.Channels">
+            <div class="col-8">
+                <input #slider type="range" step="1" [class.disabled]="!channel.CanBeModified" min="{{channel.Min}}" max="{{channel.Max}}" [(ngModel)]="channel.Value" (ngModelChange)="ChannelChanged(channel)" (mousedown)="DisableUpdatesFor(channel)" (mouseup)="EnableUpdatesFor(channel)" />
+            </div>
+            <div class="col-1 noselect">
+                {{channel.Value}}
+            </div>
+            <div [class.col-3]="light.Name !== 'Weiß'" [class.col-12]="light.Name === 'Weiß'">
+                <div class="switch" [class.big]="light.Name === 'Weiß'">
+                    <input type="checkbox" [id]="channel.Name" (click)="ToggleChannel(channel)" [checked]="channel.Value > channel.Min" />
+                    <label [attr.for]="channel.Name">
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngFor="let temperature of Room.Temperatures">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-10 noselect">{{temperature.Name}}</div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <input #slider type="range" step="1" min="{{temperature.TargetTemperature.Min}}" max="{{temperature.TargetTemperature.Max}}" [(ngModel)]="temperature.TargetTemperature.Value" (ngModelChange)="ChannelChanged(temperature.TargetTemperature)" (mousedown)="DisableUpdatesFor(temperature.TargetTemperature)" (mouseup)="EnableUpdatesFor(temperature.TargetTemperature)" />
+            </div>
+            <div class="col-1 noselect">
+                {{temperature.TargetTemperature.Value}}
+            </div>
+            <div class="col-3 noselect">
+                {{temperature.MeasuredTemperature.Value | format}}°C
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-3 noselect">
+                {{temperature.MeasuredHumidity.Value | format}}%
+            </div>
+        </div>
+    </div>
+</div>

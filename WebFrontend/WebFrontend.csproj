@@ -1,0 +1,96 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="angularApp\home.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="angularApp\hc-routing.module.js" />
+    <Content Include="angularApp\hc-routing.module.js.map" />
+    <Content Include="angularApp\hc-routing.module.ts" />
+    <Content Include="angularApp\hc.component.html" />
+    <Content Include="angularApp\hc.component.js" />
+    <Content Include="angularApp\hc.component.js.map" />
+    <Content Include="angularApp\hc.component.ts" />
+    <Content Include="angularApp\hc.module.js" />
+    <Content Include="angularApp\hc.module.js.map" />
+    <Content Include="angularApp\hc.module.ts" />
+    <Content Include="angularApp\config.service.js" />
+    <Content Include="angularApp\config.service.js.map" />
+    <Content Include="angularApp\config.service.ts" />
+    <Content Include="angularApp\format.pipe.js" />
+    <Content Include="angularApp\format.pipe.js.map" />
+    <Content Include="angularApp\format.pipe.ts" />
+    <Content Include="angularApp\hub.service.js" />
+    <Content Include="angularApp\hub.service.js.map" />
+    <Content Include="angularApp\hub.service.ts" />
+    <Content Include="angularApp\main.js" />
+    <Content Include="angularApp\main.js.map" />
+    <Content Include="angularApp\main.ts" />
+    <Content Include="angularApp\menu.component.html" />
+    <Content Include="angularApp\menu.component.js" />
+    <Content Include="angularApp\menu.component.js.map" />
+    <Content Include="angularApp\menu.component.scss" />
+    <Content Include="angularApp\menu.component.ts" />
+    <Content Include="angularApp\navigation.service.js" />
+    <Content Include="angularApp\navigation.service.js.map" />
+    <Content Include="angularApp\navigation.service.ts" />
+    <Content Include="angularApp\home.component.html" />
+    <Content Include="angularApp\room.component.html" />
+    <Content Include="angularApp\room.component.js" />
+    <Content Include="angularApp\room.component.js.map" />
+    <Content Include="angularApp\room.component.scss" />
+    <Content Include="angularApp\room.component.ts" />
+    <Content Include="angularApp\styles.scss" />
+    <Content Include="angularApp\site.min.css" />
+    <Content Include="angularApp\favicon.ico" />
+    <Content Include="angularApp\Index.html" />
+    <Content Include="angularApp\systemjs.config.js" />
+    <Content Include="angularApp\_references.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="wwwroot\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
+    <PackageReference Include="BundlerMinifier.Core" Version="2.5.357" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="angularApp\home.component.ts" />
+  </ItemGroup>
+
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm install" />
+    <Exec Command="bower install" />
+    <Exec Command="gulp clean" />
+    <Exec Command="gulp min" />
+    <Exec Command="dotnet bundle" />
+  </Target>
+
+</Project>

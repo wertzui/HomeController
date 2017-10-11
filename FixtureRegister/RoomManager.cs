@@ -66,8 +66,12 @@ namespace FixtureRegister
             if (roomsChanged)
             {
                 roomsChanged = false;
-                await hub.SendAsync(Rooms, MethodType.Update);
-                await config.WriteConfigAsync(Rooms);
+                try
+                {
+                    await hub.SendAsync(Rooms, MethodType.Update);
+                    await config.WriteConfigAsync(Rooms);
+                }
+                catch { }
             }
         }
 

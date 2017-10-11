@@ -1,11 +1,8 @@
 ﻿using EventBus.Messaging;
 using Plugins.Common;
+using Plugins.Common.Fixtures;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
-using Plugins.Common.Fixtures;
-using Microsoft.Owin.Hosting;
-using System.Linq;
 
 namespace TemperaturePlugin
 {
@@ -40,7 +37,7 @@ namespace TemperaturePlugin
             }
         }
 
-        async Task UpdateReceived(Message message)
+        private async Task UpdateReceived(Message message)
         {
             if (message.Values != null)
             {
@@ -56,7 +53,7 @@ namespace TemperaturePlugin
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns></returns>
-        static IEnumerable<Channel> GetChannelsFromMessage(IEnumerable<dynamic> channels)
+        private static IEnumerable<Channel> GetChannelsFromMessage(IEnumerable<dynamic> channels)
         {
             var realChannels = new List<Channel>();
             if (channels != null)

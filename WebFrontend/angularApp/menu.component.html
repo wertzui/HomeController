@@ -1,0 +1,12 @@
+﻿<nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-dark">
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                Räume
+            </a>
+            <div class="dropdown-menu" [class.show]="IsOpen">
+                <a *ngFor="let room of Rooms" (click)="navigateTo(room)" class="dropdown-item nav-link">{{room.Name}}</a>
+            </div>
+        </li>
+    </ul>
+</nav>

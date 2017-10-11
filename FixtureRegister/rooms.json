@@ -75,6 +75,15 @@
           "Value": 0.0,
           "CanBeModified": false
         },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumidityWohnzimmer",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
         "TargetTemperature": {
           "Name": "TargetTemperatureWohnzimmer",
           "Type": "Range",
@@ -110,6 +119,15 @@
         "Name": "Temperatur",
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureBad",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumidityBad",
           "Type": "Range",
           "Target": "Temperature",
           "Min": 0.0,
@@ -159,6 +177,15 @@
           "Value": 0.0,
           "CanBeModified": false
         },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumidityWC",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
         "TargetTemperature": {
           "Name": "TargetTemperatureWC",
           "Type": "Range",
@@ -194,6 +221,15 @@
         "Name": "Temperatur",
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureFlur",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumidityFlur",
           "Type": "Range",
           "Target": "Temperature",
           "Min": 0.0,
@@ -243,6 +279,15 @@
           "Value": 0.0,
           "CanBeModified": false
         },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumiditySchlafzimmer",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
         "TargetTemperature": {
           "Name": "TargetTemperatureSchlafzimmer",
           "Type": "Range",
@@ -278,6 +323,15 @@
         "Name": "Temperatur",
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureAnkleide",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumidityAnkleide",
           "Type": "Range",
           "Target": "Temperature",
           "Min": 0.0,
@@ -327,6 +381,15 @@
           "Value": 0.0,
           "CanBeModified": false
         },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumidityGästezimmer",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
         "TargetTemperature": {
           "Name": "TargetTemperatureGästezimmer",
           "Type": "Range",
@@ -362,6 +425,15 @@
         "Name": "Temperatur",
         "MeasuredTemperature": {
           "Name": "MeasuredTemperatureKinderzimmer",
+          "Type": "Range",
+          "Target": "Temperature",
+          "Min": 0.0,
+          "Max": 0.0,
+          "Value": 0.0,
+          "CanBeModified": false
+        },
+        "MeasuredHumidity": {
+          "Name": "MeasuredHumidityKinderzimmer",
           "Type": "Range",
           "Target": "Temperature",
           "Min": 0.0,

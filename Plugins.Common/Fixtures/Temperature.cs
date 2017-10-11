@@ -17,6 +17,14 @@ namespace Plugins.Common.Fixtures
         public Channel MeasuredTemperature { get; set; }
 
         /// <summary>
+        /// Gets or sets the measured humidity in percent.
+        /// </summary>
+        /// <value>
+        /// The measured temperature.
+        /// </value>
+        public Channel MeasuredHumidity { get; set; }
+
+        /// <summary>
         /// Gets or sets the target temperature in degrees celsius.
         /// </summary>
         /// <value>
@@ -31,7 +39,7 @@ namespace Plugins.Common.Fixtures
         /// The channels.
         /// </value>
         private IEnumerable<Channel> channels
-            => new[] { MeasuredTemperature, TargetTemperature };
+            => new[] { MeasuredTemperature, MeasuredHumidity, TargetTemperature };
 
         /// <summary>
         /// Updates the channels for this light with the new values.

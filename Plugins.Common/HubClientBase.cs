@@ -1,7 +1,6 @@
 ﻿using EventBus.Messaging;
-using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ namespace Plugins.Common
     public abstract class HubClientBase : IHubClient, IDisposable
     {
         private HubConnection hubConnection;
-        private IHubProxy eventHubProxy;
         private const string joinMethodName = "JoinGroup";
         private const string leaveMethodName = "LeaveGroup";
 
@@ -60,12 +58,12 @@ namespace Plugins.Common
         {
             Console.WriteLine($"Starting Hub {Sender}");
             await OnBeforeConnectionStartAsync();
-            hubConnection = new HubConnection(Url);
-            hubConnection.JsonSerializer.Converters.Add(new StringEnumConverter());
-            eventHubProxy = hubConnection.CreateHubProxy("EventHub");
-            eventHubProxy.On<Message>("Receive",
-                async message => await OnReceiveAsync(message));
-            await hubConnection.Start();
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl(Url)
+                .WithConsoleLogger()
+                .Build();
+            hubConnection.On<Message>("Receive", async message => await OnReceiveAsync(message));
+            await hubConnection.StartAsync().ConfigureAwait(false);
             await JoinGroupAsync(TargetFilter);
             Console.WriteLine($"Hub {Sender} started with Group {TargetFilter}");
             await SendAsync(null, MethodType.StatusStarted);
@@ -78,7 +76,7 @@ namespace Plugins.Common
         /// <param name="method">The method type of this message.</param>
         /// <param name="target">The target of this message.</param>
         /// <returns></returns>
-        public async Task<Message> SendAsync(IEnumerable<dynamic> values, MethodType method, string target = null)
+        public Task<Message> SendAsync(IEnumerable<dynamic> values, MethodType method, string target = null)
         {
             var message = new Message
             {
@@ -91,7 +89,7 @@ namespace Plugins.Common
 
             Console.WriteLine("Sending " + JsonConvert.SerializeObject(message, Formatting.Indented));
 
-            return await eventHubProxy.Invoke<Message>("Send", message);
+            return hubConnection.InvokeAsync<Message>("Send", message);
         }
 
         /// <summary>
@@ -99,14 +97,14 @@ namespace Plugins.Common
         /// </summary>
         /// <param name="groupName">Name of the group.</param>
         /// <returns></returns>
-        private Task JoinGroupAsync(string groupName) => eventHubProxy.Invoke<Message>(joinMethodName, groupName);
+        private Task JoinGroupAsync(string groupName) => hubConnection.InvokeAsync<Message>(joinMethodName, groupName);
 
         /// <summary>
         /// Leaves the given group in the event hub.
         /// </summary>
         /// <param name="groupName">Name of the group.</param>
         /// <returns></returns>
-        private Task LeaveGroupAsync(string groupName) => eventHubProxy.Invoke<Message>(leaveMethodName, groupName);
+        private Task LeaveGroupAsync(string groupName) => hubConnection.InvokeAsync<Message>(leaveMethodName, groupName);
 
         /// <summary>
         /// Called when a new message from the event bus is received.
@@ -129,7 +127,7 @@ namespace Plugins.Common
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
+        protected virtual async void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
@@ -138,22 +136,13 @@ namespace Plugins.Common
                     SendAsync(null, MethodType.StatusStopped).Wait();
                     try
                     {
-                        hubConnection.Stop();
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                    try
-                    {
-                        hubConnection.Dispose();
+                        await hubConnection.DisposeAsync();
                     }
                     catch (Exception)
                     {
                         throw;
                     }
                 }
-                eventHubProxy = null;
                 hubConnection = null;
 
                 disposedValue = true;

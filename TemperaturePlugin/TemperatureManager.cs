@@ -1,4 +1,5 @@
-﻿using Plugins.Common;
+﻿using Newtonsoft.Json;
+using Plugins.Common;
 using Plugins.Common.Fixtures;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,7 @@ namespace TemperaturePlugin
                 temperature = new Temperature
                 {
                     MeasuredTemperature = new Channel { Name = "MeasuredTemperature" + temperatureName, Type = "Range", CanBeModified = false, Target = "Temperature" },
+                    MeasuredHumidity = new Channel { Name = "MeasuredHumidity" + temperatureName, Type = "Range", CanBeModified = false, Target = "Temperature" },
                     TargetTemperature = new Channel { Name = "TargetTemperature" + temperatureName, Type = "Range", CanBeModified = true, Target = "Temperature" },
                     Name = temperatureName
                 };
@@ -101,11 +103,12 @@ namespace TemperaturePlugin
 
             // no perceived temperature for now as the heat index works only above 26°C
             //var perceivedTemperature = HeatIndexCalulcator.CalculateHeatIndex(temperature, humidity);
-            Console.WriteLine($"Updating measured temp - old: {savedTemperature.MeasuredTemperature.Value}, new: {temperature}");
+            Console.WriteLine($"Updating measured temp {name} - old-temp: {savedTemperature.MeasuredTemperature.Value}, new-temp: {temperature} old-hum: {savedTemperature.MeasuredHumidity.Value}, new-hum: {humidity}");
 
             if (savedTemperature.MeasuredTemperature.Value != temperature)
             {
                 savedTemperature.MeasuredTemperature.Value = temperature;
+                savedTemperature.MeasuredHumidity.Value = humidity;
 
                 await UpdateTermostatState(savedTemperature).ConfigureAwait(false);
                 await UpdateFixtureRegister(savedTemperature).ConfigureAwait(false);
@@ -113,7 +116,7 @@ namespace TemperaturePlugin
         }
 
         private Task UpdateFixtureRegister(Temperature fixture)
-             => hubClient.SendAsync(new[] { fixture.MeasuredTemperature }, EventBus.Messaging.MethodType.Update, "FixtureRegister");
+             => hubClient.SendAsync(new[] { fixture.MeasuredTemperature, fixture.MeasuredHumidity }, EventBus.Messaging.MethodType.Update, "FixtureRegister");
 
         private Task MeasureAllTemperatures()
         {
@@ -127,7 +130,8 @@ namespace TemperaturePlugin
             {
                 await httpClient.GetAsync(GetTemperatureSensorUpdateUrl(name)).ConfigureAwait(false);
                 var result = await httpClient.GetAsync(GetTemperatureSensorMeasureUrl(name)).ConfigureAwait(false);
-                var measured = await result.Content.ReadAsAsync<TemperatureMeasureResult>().ConfigureAwait(false);
+                var measuredString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var measured = JsonConvert.DeserializeObject<TemperatureMeasureResult>(measuredString);
                 await UpdateMeasuredTemperature(name, measured.Variables.RealTemperature, measured.Variables.RealHumidity).ConfigureAwait(false);
             }
             catch (Exception e)
